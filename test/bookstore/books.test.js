@@ -10,12 +10,10 @@ describe('Books', () => {
   let token
 
   beforeAll(async () => {
-    const { data } = await AuthService.generateToken({
+    token = await AuthService.getTokenFromCache({
       userName: config.username,
       password: config.password
     })
-
-    token = data.token
   })
 
   it('Список книг', async () => {
