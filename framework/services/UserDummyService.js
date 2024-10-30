@@ -1,6 +1,6 @@
-import { clientDummyjson as client } from './client'
-import config from '../config/configDummyjson'
-import supertest from 'supertest'
+import clients from './client'
+
+const client = clients.clientDummyjson
 
 const getUsers = async () => {
   const response = await client.get('/users')
@@ -12,38 +12,8 @@ const getUsers = async () => {
   }
 }
 
-const login = async ({ username, password, expiresInMins }) => {
-  const response = await fetch(`${config.baseURL}/user/login`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      username,
-      password,
-      expiresInMins
-    })
-  })
-
-  return {
-    headers: response.headers,
-    status: response.status,
-    data: await response.json()
-  }
-}
-
-const getMe = async ({ token }) => {
-  const response = await supertest(config.baseURL).get('/user/me').set('Authorization', `Bearer ${token}`)
-
-  return {
-    headers: response.headers,
-    status: response.status,
-    data: response.body
-  }
-}
-
 export default {
-  getAll: getUsers,
-  me: getMe,
-  login
+  getAll: getUsers
 }
 
 // fetch('https://dummyjson.com/users/1')
