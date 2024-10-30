@@ -3,7 +3,7 @@ import { AuthService } from '../../framework'
 
 describe('Авторизация', () => {
   it('Успешная авторизация', async () => {
-    const response = await AuthService.generateToken({
+    const response = await AuthService.generateTokenCached({
       userName: config.username,
       password: config.password
     })
