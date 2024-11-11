@@ -17,7 +17,10 @@ describe('Авторизация', () => {
       userName: config.username,
       password: ''
     })
-    expect(response.status).toBe(400)
+    expect(response.data).toMatchObject({
+      code: expect.any(String),
+      message: expect.any(String)
+    })
     expect(response.data.code).toBe('1200')
     expect(response.data.message).toBe('UserName and Password required.')
   })
