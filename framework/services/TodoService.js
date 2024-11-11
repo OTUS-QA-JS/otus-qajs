@@ -48,7 +48,7 @@ const getAllTodosByUserId = async userId => {
 }
 
 const addTodo = async data => {
-  const response = await client.post('/todos', data)
+  const response = await client.post('/todos/add', data)
 
   return {
     status: response.status,
@@ -57,8 +57,8 @@ const addTodo = async data => {
   }
 }
 
-const updateTodo = async data => {
-  const response = await client.put(`/todos`, data)
+const updateTodo = async (todoId, data) => {
+  const response = await client.put(`/todos/${todoId}`, data)
 
   return {
     status: response.status,
@@ -68,7 +68,7 @@ const updateTodo = async data => {
 }
 
 const deleteTodo = async id => {
-  const response = await client.delete(`/todos` + id)
+  const response = await client.delete(`/todos/${id}`)
 
   return {
     status: response.status,
