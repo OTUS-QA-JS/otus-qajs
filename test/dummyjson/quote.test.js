@@ -1,4 +1,20 @@
 import { QuoteService } from '../../framework'
+import Ajv from 'ajv'
+
+const ajv = new Ajv()
+
+const quoteSchema = {
+  type: 'object',
+  properties: {
+    id: { type: 'number' },
+    quote: { type: 'string' },
+    author: { type: 'string' }
+  },
+  required: ['id', 'quote', 'author'],
+  additionalProperties: false
+}
+
+const quoteValidate = ajv.compile(quoteSchema)
 
 describe('Quote', () => {
   it('Should return a quote', async () => {
@@ -14,25 +30,21 @@ describe('Quote', () => {
   it('Should return 404 if quote not exits', async () => {
     const response = await QuoteService.get(10_000)
     expect(response.status).toBe(404)
-    expect(response.data).toStrictEqual({ message: "Quote with id '10000' not found" })
+    expect(response.data).toStrictEqual({
+      message: "Quote with id '10000' not found"
+    })
   })
 
   it('Should return a random quote', async () => {
     const response1 = await QuoteService.getRandom()
     expect(response1.status).toBe(200)
-    expect(response1.data).toMatchObject({
-      id: expect.any(Number),
-      quote: expect.any(String),
-      author: expect.any(String)
-    })
+    const isValid1 = quoteValidate(response1.data)
+    expect(quoteValidate.errors).toStrictEqual(null)
+    expect(isValid1).toBe(true)
 
     const response2 = await QuoteService.getRandom()
     expect(response2.status).toBe(200)
-    expect(response2.data).toMatchObject({
-      id: expect.any(Number),
-      quote: expect.any(String),
-      author: expect.any(String)
-    })
+    expect(quoteValidate(response2.data)).toBe(true)
 
     expect(response1.data).not.toStrictEqual(response2.data)
   })
