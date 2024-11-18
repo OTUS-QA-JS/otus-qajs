@@ -31,7 +31,7 @@ export default tseslint.config(
   {
     files: ['**/*.ts'],
     rules: {
-      '@typescript-eslint/no-explicit-any': 'off' // 'warn'
+      '@typescript-eslint/no-explicit-any': 'warn' // 'warn'
     }
   },
   // DOC: https://www.npmjs.com/package/eslint-plugin-jest

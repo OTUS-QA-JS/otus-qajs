@@ -1,8 +1,21 @@
 import clients from './client'
+import { Recipe } from '../models/Recipe'
 
 const client = clients.clientDummyjson
 
-const getRecipes = async ({ limit, skip, select, sortBy, order }: any) => {
+const getRecipes = async ({
+  limit,
+  skip,
+  select,
+  sortBy,
+  order
+}: {
+  limit?: number
+  skip?: number
+  select?: string
+  sortBy?: string
+  order?: string
+}) => {
   const response = await client.get('/recipes', {
     params: {
       limit,
@@ -16,11 +29,11 @@ const getRecipes = async ({ limit, skip, select, sortBy, order }: any) => {
   return {
     status: response.status,
     headers: response.headers,
-    data: response.data
+    data: response.data as Recipe[]
   }
 }
 
-const getRecipe = async (id: any) => {
+const getRecipe = async (id: number) => {
   const response = await client.get(`/recipes/${id}`)
 
   return {
@@ -30,7 +43,7 @@ const getRecipe = async (id: any) => {
   }
 }
 
-const searchRecipes = async (query: any) => {
+const searchRecipes = async (query: string) => {
   const response = await client.get('/recipes/search', {
     params: {
       q: query
@@ -54,7 +67,7 @@ const getAllRecipesTags = async () => {
   }
 }
 
-const getRecipesByTag = async (tag: any) => {
+const getRecipesByTag = async (tag: string) => {
   const response = await client.get(`/recipes/tag/${tag}`)
 
   return {
@@ -64,7 +77,7 @@ const getRecipesByTag = async (tag: any) => {
   }
 }
 
-const getRecipesByMeal = async (meal: any) => {
+const getRecipesByMeal = async (meal: string) => {
   const response = await client.get(`/recipes/meal-type/${meal}`)
 
   return {

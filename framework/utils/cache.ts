@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 export const cached =
   (fn: any, cache = new Map()) =>
   async (...payload: any[]) => {

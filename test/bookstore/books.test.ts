@@ -8,7 +8,7 @@ describe('Books', () => {
   const [book1, book2] = books
   const isbn = book1.isbn
 
-  let token: any
+  let token: string
 
   beforeAll(async () => {
     token = await AuthService.getTokenFromCache({

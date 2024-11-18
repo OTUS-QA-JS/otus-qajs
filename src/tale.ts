@@ -1,4 +1,4 @@
-export function kolobok(character: any) {
+export function kolobok(character: string) {
   switch (character) {
     case 'дедушка':
       return 'Я от дедушки ушёл'
@@ -11,7 +11,7 @@ export function kolobok(character: any) {
   }
 }
 
-export function newYear(character: any) {
+export function newYear(character: string) {
   switch (character) {
     case 'Дед Мороз':
     case 'Снегурочка':

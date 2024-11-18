@@ -1,7 +1,8 @@
 import config from '../config/configBookstore'
 import { cached } from '../utils/cache'
+import { UserCredentials } from '../models'
 
-const generateToken = async ({ userName, password }: any) => {
+const generateToken = async ({ userName, password }: UserCredentials) => {
   const response = await fetch(`${config.baseURL}/Account/v1/GenerateToken`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -15,7 +16,7 @@ const generateToken = async ({ userName, password }: any) => {
   }
 }
 
-const authorized = async ({ userName, password }: any) => {
+const authorized = async ({ userName, password }: UserCredentials) => {
   const response = await fetch(`${config.baseURL}/Account/v1/Authorized`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -29,7 +30,7 @@ const authorized = async ({ userName, password }: any) => {
   }
 }
 
-const login = async ({ userName, password }: any) => {
+const login = async ({ userName, password }: UserCredentials) => {
   const response = await fetch(`${config.baseURL}/Account/v1/Login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -45,7 +46,7 @@ const login = async ({ userName, password }: any) => {
 
 const generateTokenCached = cached(generateToken)
 
-const getTokenFromCache = async ({ userName, password }: any) => {
+const getTokenFromCache = async ({ userName, password }: UserCredentials) => {
   const response = await generateTokenCached({
     userName,
     password

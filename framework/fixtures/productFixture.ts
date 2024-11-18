@@ -59,8 +59,16 @@ import { faker } from '@faker-js/faker'
 //   "images": ["...", "...", "..."]
 // }
 
+interface Review {
+  rating: number
+  comment: string
+  date: string
+  reviewerName: string
+  reviewerEmail: string
+}
+
 export function ProductFixture() {
-  let data = {}
+  let data: Record<string, unknown> = {}
 
   const setDefaults = () => {
     data = {
@@ -70,19 +78,16 @@ export function ProductFixture() {
     }
   }
 
-  const setTitle = (title: any) => {
-    // @ts-expect-error TS(2339): Property 'title' does not exist on type '{}'.
+  const setTitle = (title: string) => {
     data.title = title
   }
 
-  const setDescription = (description: any) => {
-    // @ts-expect-error TS(2339): Property 'description' does not exist on type '{}'... Remove this comment to see the full error message
+  const setDescription = (description: string) => {
     data.description = description
   }
 
-  const setReviews = (reviews: any) => {
+  const setReviews = (reviews: number | Review[]) => {
     if (typeof reviews === 'number') {
-      // @ts-expect-error TS(2339): Property 'reviews' does not exist on type '{}'.
       data.reviews = Array.from({ length: reviews }).map(() => {
         return {
           rating: 2,
@@ -97,7 +102,6 @@ export function ProductFixture() {
     }
 
     if (Array.isArray(reviews)) {
-      // @ts-expect-error TS(2339): Property 'reviews' does not exist on type '{}'.
       data.reviews = reviews
     }
   }

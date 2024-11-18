@@ -1,8 +1,9 @@
 import clients from './client'
+import { Todo } from '../models/Todo'
 
 const client = clients.clientDummyjson
 
-const getAllTodos = async ({ limit, skip }: any) => {
+const getAllTodos = async ({ limit, skip }: { limit?: number; skip?: number }) => {
   const response = await client.get('/todos', {
     params: {
       limit,
@@ -13,17 +14,17 @@ const getAllTodos = async ({ limit, skip }: any) => {
   return {
     status: response.status,
     headers: response.headers,
-    data: response.data
+    data: response.data as Todo[]
   }
 }
 
-const getTodo = async (id: any) => {
+const getTodo = async (id: number) => {
   const response = await client.get(`/todos/${id}`)
 
   return {
     status: response.status,
     headers: response.headers,
-    data: response.data
+    data: response.data as Todo
   }
 }
 
@@ -33,41 +34,41 @@ const getRandomTodo = async () => {
   return {
     status: response.status,
     headers: response.headers,
-    data: response.data
+    data: response.data as Todo
   }
 }
 
-const getAllTodosByUserId = async (userId: any) => {
+const getAllTodosByUserId = async (userId: number) => {
   const response = await client.get(`/todos/user/${userId}`)
 
   return {
     status: response.status,
     headers: response.headers,
-    data: response.data
+    data: response.data as { todos: Todo[] }
   }
 }
 
-const addTodo = async (data: any) => {
+const addTodo = async (data: Omit<Todo, 'id'>) => {
   const response = await client.post('/todos/add', data)
 
   return {
     status: response.status,
     headers: response.headers,
-    data: response.data
+    data: response.data as Todo
   }
 }
 
-const updateTodo = async (todoId: any, data: any) => {
+const updateTodo = async (todoId: number, data: Partial<Todo>) => {
   const response = await client.put(`/todos/${todoId}`, data)
 
   return {
     status: response.status,
     headers: response.headers,
-    data: response.data
+    data: response.data as Todo
   }
 }
 
-const deleteTodo = async (id: any) => {
+const deleteTodo = async (id: number) => {
   const response = await client.delete(`/todos/${id}`)
 
   return {
