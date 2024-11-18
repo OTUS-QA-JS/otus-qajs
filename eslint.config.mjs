@@ -28,6 +28,12 @@ export default tseslint.config(
     files: ['**/*.js'],
     extends: [tseslint.configs.disableTypeChecked]
   },
+  {
+    files: ['**/*.ts'],
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off' // 'warn'
+    }
+  },
   // DOC: https://www.npmjs.com/package/eslint-plugin-jest
   {
     files: ['test/**', 'setup-jest.js'],
