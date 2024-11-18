@@ -2,10 +2,7 @@ import clients from './client'
 
 const client = clients.clientDummyjson
 
-const getAllTodos = async ({
-  limit,
-  skip
-}: any) => {
+const getAllTodos = async ({ limit, skip }: any) => {
   const response = await client.get('/todos', {
     params: {
       limit,

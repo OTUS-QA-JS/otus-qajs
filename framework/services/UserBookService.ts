@@ -2,12 +2,7 @@
 import supertest from 'supertest'
 import config from '../config/configBookstore'
 
-const replaceBook = async ({
-  userId,
-  fromIsbn,
-  toIsbn,
-  token
-}: any) => {
+const replaceBook = async ({ userId, fromIsbn, toIsbn, token }: any) => {
   const response = await supertest(config.baseURL)
     .put(`/BookStore/v1/Books/${fromIsbn}`)
     .set('Authorization', `Bearer ${token}`)
@@ -22,11 +17,7 @@ const replaceBook = async ({
   }
 }
 
-const addListOfBooks = async ({
-  userId,
-  isbns,
-  token
-}: any) => {
+const addListOfBooks = async ({ userId, isbns, token }: any) => {
   const payload = {
     userId,
     collectionOfIsbns: isbns.map((isbn: any) => ({
@@ -46,10 +37,7 @@ const addListOfBooks = async ({
   }
 }
 
-const removeAllBooks = async ({
-  userId,
-  token
-}: any) => {
+const removeAllBooks = async ({ userId, token }: any) => {
   const response = await supertest(config.baseURL)
     .delete(`/BookStore/v1/Books?UserId=${userId}`)
     .set('Authorization', `Bearer ${token}`)

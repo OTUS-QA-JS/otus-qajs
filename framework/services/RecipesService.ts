@@ -2,13 +2,7 @@ import clients from './client'
 
 const client = clients.clientDummyjson
 
-const getRecipes = async ({
-  limit,
-  skip,
-  select,
-  sortBy,
-  order
-}: any) => {
+const getRecipes = async ({ limit, skip, select, sortBy, order }: any) => {
   const response = await client.get('/recipes', {
     params: {
       limit,

@@ -2,10 +2,7 @@ import clients from './client'
 
 const client = clients.clientDummyjson
 
-const getAllQuotes = async ({
-  limit,
-  skip
-}: any) => {
+const getAllQuotes = async ({ limit, skip }: any) => {
   const response = await client.get('/quotes', {
     params: {
       limit,
