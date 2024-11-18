@@ -70,16 +70,19 @@ export function ProductFixture() {
     }
   }
 
-  const setTitle = title => {
+  const setTitle = (title: any) => {
+    // @ts-expect-error TS(2339): Property 'title' does not exist on type '{}'.
     data.title = title
   }
 
-  const setDescription = description => {
+  const setDescription = (description: any) => {
+    // @ts-expect-error TS(2339): Property 'description' does not exist on type '{}'... Remove this comment to see the full error message
     data.description = description
   }
 
-  const setReviews = reviews => {
+  const setReviews = (reviews: any) => {
     if (typeof reviews === 'number') {
+      // @ts-expect-error TS(2339): Property 'reviews' does not exist on type '{}'.
       data.reviews = Array.from({ length: reviews }).map(() => {
         return {
           rating: 2,
@@ -94,6 +97,7 @@ export function ProductFixture() {
     }
 
     if (Array.isArray(reviews)) {
+      // @ts-expect-error TS(2339): Property 'reviews' does not exist on type '{}'.
       data.reviews = reviews
     }
   }

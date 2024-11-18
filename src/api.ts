@@ -10,7 +10,7 @@ async function fetchUsers(queryParams = {}) {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-async function fetchUser(id) {
+async function fetchUser(id: any) {
   const response = await fetch(`${baseUrl}/users/${id}`)
   return {
     status: response.status,
@@ -20,7 +20,7 @@ async function fetchUser(id) {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-async function updateUser(id, data) {
+async function updateUser(id: any, data: any) {
   const response = await fetch(`${baseUrl}/users/${id}`, {
     method: 'PATCH',
     headers: {
@@ -36,7 +36,7 @@ async function updateUser(id, data) {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-async function putUser(id, data) {
+async function putUser(id: any, data: any) {
   const response = await fetch(`${baseUrl}/users/${id}`, {
     method: 'PUT',
     headers: {
@@ -52,7 +52,7 @@ async function putUser(id, data) {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-async function deleteUser(id) {
+async function deleteUser(id: any) {
   const response = await fetch(`${baseUrl}/users/${id}`, {
     method: 'DELETE'
   })
@@ -63,7 +63,7 @@ async function deleteUser(id) {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-async function createUser(data) {
+async function createUser(data: any) {
   const response = await fetch(`${baseUrl}/users`, {
     method: 'POST',
     headers: {

@@ -2,9 +2,9 @@ import { AuthService, UserService, UserFixture } from '../../framework'
 import { addMsg } from 'jest-html-reporters/helper'
 
 describe('Users', () => {
-  let token
-  let userId
-  let newUser
+  let token: any
+  let userId: any
+  let newUser: any
 
   beforeAll(async () => {
     newUser = UserFixture.generateUserCredentials()

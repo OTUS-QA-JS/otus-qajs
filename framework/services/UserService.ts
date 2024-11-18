@@ -6,7 +6,10 @@ const client = axios.create({
   validateStatus: () => true
 })
 
-const getUser = async ({ userId, token }) => {
+const getUser = async ({
+  userId,
+  token
+}: any) => {
   const response = await client.get(`/Account/v1/User/${userId}`, {
     headers: {
       Authorization: `Bearer ${token}`
@@ -20,7 +23,10 @@ const getUser = async ({ userId, token }) => {
   }
 }
 
-const createUser = async ({ userName, password }) => {
+const createUser = async ({
+  userName,
+  password
+}: any) => {
   const response = await client.post(`/Account/v1/User`, {
     userName,
     password
@@ -33,7 +39,10 @@ const createUser = async ({ userName, password }) => {
   }
 }
 
-const removeUser = async ({ userId, token }) => {
+const removeUser = async ({
+  userId,
+  token
+}: any) => {
   const response = await client.delete(`/Account/v1/User/${userId}`, {
     headers: {
       Authorization: `Bearer ${token}`

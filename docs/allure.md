@@ -31,7 +31,7 @@ npm install --save-dev allure-commandline
 npm install --save-dev allure-jest
 ```
 
-В `jest.config.js` нужно добавить `testEnvironment: 'allure-jest/node'`
+В `jest.config.cjs` нужно добавить `testEnvironment: 'allure-jest/node'`
 
 Пример конфига (если нет никаких настроек jest, только allure добавляем)
 

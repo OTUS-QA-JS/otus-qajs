@@ -2,7 +2,13 @@ import clients from './client'
 
 const client = clients.clientDummyjson
 
-const getRecipes = async ({ limit, skip, select, sortBy, order }) => {
+const getRecipes = async ({
+  limit,
+  skip,
+  select,
+  sortBy,
+  order
+}: any) => {
   const response = await client.get('/recipes', {
     params: {
       limit,
@@ -20,7 +26,7 @@ const getRecipes = async ({ limit, skip, select, sortBy, order }) => {
   }
 }
 
-const getRecipe = async id => {
+const getRecipe = async (id: any) => {
   const response = await client.get(`/recipes/${id}`)
 
   return {
@@ -30,7 +36,7 @@ const getRecipe = async id => {
   }
 }
 
-const searchRecipes = async query => {
+const searchRecipes = async (query: any) => {
   const response = await client.get('/recipes/search', {
     params: {
       q: query
@@ -54,7 +60,7 @@ const getAllRecipesTags = async () => {
   }
 }
 
-const getRecipesByTag = async tag => {
+const getRecipesByTag = async (tag: any) => {
   const response = await client.get(`/recipes/tag/${tag}`)
 
   return {
@@ -64,7 +70,7 @@ const getRecipesByTag = async tag => {
   }
 }
 
-const getRecipesByMeal = async meal => {
+const getRecipesByMeal = async (meal: any) => {
   const response = await client.get(`/recipes/meal-type/${meal}`)
 
   return {

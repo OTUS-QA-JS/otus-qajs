@@ -1,7 +1,10 @@
 import config from '../config/configBookstore'
 import { cached } from '../utils/cache'
 
-const generateToken = async ({ userName, password }) => {
+const generateToken = async ({
+  userName,
+  password
+}: any) => {
   const response = await fetch(`${config.baseURL}/Account/v1/GenerateToken`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -15,7 +18,10 @@ const generateToken = async ({ userName, password }) => {
   }
 }
 
-const authorized = async ({ userName, password }) => {
+const authorized = async ({
+  userName,
+  password
+}: any) => {
   const response = await fetch(`${config.baseURL}/Account/v1/Authorized`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -29,7 +35,10 @@ const authorized = async ({ userName, password }) => {
   }
 }
 
-const login = async ({ userName, password }) => {
+const login = async ({
+  userName,
+  password
+}: any) => {
   const response = await fetch(`${config.baseURL}/Account/v1/Login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -45,7 +54,10 @@ const login = async ({ userName, password }) => {
 
 const generateTokenCached = cached(generateToken)
 
-const getTokenFromCache = async ({ userName, password }) => {
+const getTokenFromCache = async ({
+  userName,
+  password
+}: any) => {
   const response = await generateTokenCached({
     userName,
     password

@@ -1,4 +1,4 @@
-import { greet, farewell } from '../src/modules.js'
+import { greet, farewell } from '../src/modules'
 
 describe('greet function', () => {
   it('should return a greeting message with the given name', () => {

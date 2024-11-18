@@ -1,3 +1,4 @@
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'teacher'.
 const teacher = {
   id: 10,
   name: 'Damir Rysaev',
@@ -9,6 +10,7 @@ const teacher = {
   }
 }
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'student'.
 const student = {
   id: 212,
   name: 'Jon Snow',
@@ -17,12 +19,14 @@ const student = {
   social: {}
 }
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'badUser'.
 const badUser = {
   id: 343,
   name: 'My Bot',
   isActive: false
 }
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'users'.
 const users = [teacher, student, badUser]
 
 const getUserName = ({ name = 'Аноним' } = {}) => {
@@ -35,6 +39,7 @@ console.log('undefined', getUserName())
 
 // деструктуризация
 const [firstUser, ...alsoUsers] = users
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'name'.
 const { name = 'Аноним', otherField = 'default value', ...userFields } = firstUser
 console.log('{ name, otherField }', {
   name,

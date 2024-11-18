@@ -1,3 +1,4 @@
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'teacher'.
 const teacher = {
   id: 10,
   name: 'Damir Rysaev',
@@ -9,6 +10,7 @@ const teacher = {
   }
 }
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'student'.
 const student = {
   id: 212,
   name: 'Jon Snow',
@@ -17,12 +19,14 @@ const student = {
   social: {}
 }
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'badUser'.
 const badUser = {
   id: 343,
   name: 'My Bot',
   isActive: false
 }
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'users'.
 const users = [teacher, student, badUser]
 
 console.log('users[2]', users[2]) // badUser
@@ -63,17 +67,21 @@ const foundBadUser = users.find(user => {
 console.log('foundBadUser', foundBadUser)
 
 const foundTeacher = users.find(user => {
+  // @ts-expect-error TS(2339): Property 'roles' does not exist on type '{ id: num... Remove this comment to see the full error message
   if (!Array.isArray(user.roles)) {
     return false
   }
+  // @ts-expect-error TS(2339): Property 'roles' does not exist on type '{ id: num... Remove this comment to see the full error message
   return user.roles.includes('teacher')
 })
 console.log('foundTeacher', foundTeacher)
 
 const userNotFound = users.find(user => {
+  // @ts-expect-error TS(2339): Property 'roles' does not exist on type '{ id: num... Remove this comment to see the full error message
   if (!Array.isArray(user.roles)) {
     return false
   }
+  // @ts-expect-error TS(2339): Property 'roles' does not exist on type '{ id: num... Remove this comment to see the full error message
   return user.roles.includes('deleted role')
 })
 console.log('userNotFound', userNotFound)

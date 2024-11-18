@@ -1,6 +1,6 @@
 export const cached =
-  (fn, cache = new Map()) =>
-  async (...payload) => {
+  (fn: any, cache = new Map()) =>
+  async (...payload: any[]) => {
     const cacheKey = JSON.stringify(payload)
 
     if (!cache.has(cacheKey)) {

@@ -2,7 +2,10 @@ import clients from './client'
 
 const client = clients.clientDummyjson
 
-const getAllTodos = async ({ limit, skip }) => {
+const getAllTodos = async ({
+  limit,
+  skip
+}: any) => {
   const response = await client.get('/todos', {
     params: {
       limit,
@@ -17,7 +20,7 @@ const getAllTodos = async ({ limit, skip }) => {
   }
 }
 
-const getTodo = async id => {
+const getTodo = async (id: any) => {
   const response = await client.get(`/todos/${id}`)
 
   return {
@@ -37,7 +40,7 @@ const getRandomTodo = async () => {
   }
 }
 
-const getAllTodosByUserId = async userId => {
+const getAllTodosByUserId = async (userId: any) => {
   const response = await client.get(`/todos/user/${userId}`)
 
   return {
@@ -47,7 +50,7 @@ const getAllTodosByUserId = async userId => {
   }
 }
 
-const addTodo = async data => {
+const addTodo = async (data: any) => {
   const response = await client.post('/todos/add', data)
 
   return {
@@ -57,7 +60,7 @@ const addTodo = async data => {
   }
 }
 
-const updateTodo = async (todoId, data) => {
+const updateTodo = async (todoId: any, data: any) => {
   const response = await client.put(`/todos/${todoId}`, data)
 
   return {
@@ -67,7 +70,7 @@ const updateTodo = async (todoId, data) => {
   }
 }
 
-const deleteTodo = async id => {
+const deleteTodo = async (id: any) => {
   const response = await client.delete(`/todos/${id}`)
 
   return {

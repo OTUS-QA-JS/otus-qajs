@@ -16,7 +16,7 @@
  * console.log(result);
  * // Output: { totalWithoutDiscount: 250, totalWithDiscount: 225 }
  */
-export function calculateTotal(products, discount) {
+export function calculateTotal(products: any, discount: any) {
   // Проверка на корректность скидки
   if (typeof discount !== 'number' || discount < 0) {
     throw new Error('Скидка не может быть отрицательным числом.')

@@ -1,4 +1,4 @@
-import { calculateTotal } from '../src/discount.js'
+import { calculateTotal } from '../src/discount'
 
 describe('calculateTotal', () => {
   const validCases = [

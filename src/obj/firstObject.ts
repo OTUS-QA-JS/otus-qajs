@@ -1,3 +1,4 @@
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'teacher'.
 const teacher = {
   id: 1,
   name: 'Damir Rysaev',

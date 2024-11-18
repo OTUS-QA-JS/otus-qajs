@@ -1,10 +1,15 @@
 import config from '../config/configDummyjson'
+// @ts-expect-error TS(7016): Could not find a declaration file for module 'supe... Remove this comment to see the full error message
 import supertest from 'supertest'
 import clients from './client'
 
 const client = clients.clientDummyjson
 
-const login = async ({ username, password, expiresInMins }) => {
+const login = async ({
+  username,
+  password,
+  expiresInMins
+}: any) => {
   const response = await fetch(`${config.baseURL}/user/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -22,7 +27,9 @@ const login = async ({ username, password, expiresInMins }) => {
   }
 }
 
-const getMe = async ({ token }) => {
+const getMe = async ({
+  token
+}: any) => {
   const response = await supertest(config.baseURL).get('/user/me').set('Authorization', `Bearer ${token}`)
 
   return {
@@ -32,7 +39,10 @@ const getMe = async ({ token }) => {
   }
 }
 
-const refresh = async ({ refreshToken, expiresInMins }) => {
+const refresh = async ({
+  refreshToken,
+  expiresInMins
+}: any) => {
   const response = await client.post('/auth/refresh', {
     refreshToken,
     expiresInMins
