@@ -115,8 +115,8 @@ const config = {
       'jest-html-reporters',
       {
         publicPath: './reports/html-report',
-        filename: 'index.html',
-        openReport: !process.env.CI
+        // openReport: !process.env.CI,
+        filename: 'index.html'
       }
     ]
   ],
