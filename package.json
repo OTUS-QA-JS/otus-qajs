@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "babel-node src/main.js",
+    "telegram": "npx tsx ./src/telegram.ts",
     "lint:ci": "eslint .",
     "lint": "eslint . --fix",
     "type-check": "tsc --noEmit",
@@ -49,6 +50,7 @@
     "npm-run-all2": "^6.2.6",
     "prettier": "^3.3.3",
     "supertest": "^7.0.0",
+    "tsx": "^4.19.2",
     "typescript": "^5.6.3",
     "typescript-eslint": "^8.14.0",
     "zx": "^8.3.2"
