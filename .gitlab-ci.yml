@@ -25,17 +25,21 @@ test:
   script:
     - npm ci
     - cp $ENV_FILE .env
-    - npm run test
+    - npm test
   artifacts:
     paths:
       - reports/allure-results
 
 allure:
   stage: report
+  dependencies:
+    - test
   image: registry.gitlab.com/freepad/qajs-2023-12/allure:latest
   script:
+    - cp -r reports/allure-results /app
     - cd /app
-    - npx allure generate reports/allure-results --clean
+    - npx allure generate allure-results --clean
+    - cp -r app/allure-report $CI_PROJECT_DIR
   artifacts:
     paths:
       - allure-report
@@ -54,6 +58,8 @@ build:
 pages:
   stage: deploy
   image: alpine:latest
+  dependencies:
+    - allure
   script:
     - mkdir -p public
     - cp -r allure-report/* public/
