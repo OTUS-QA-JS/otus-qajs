@@ -35,10 +35,10 @@ allure:
   image: registry.gitlab.com/freepad/qajs-2023-12/allure:latest
   script:
     - cd /app
-    - npx allure generate allure-results --clean
+    - npx allure generate reports/allure-results --clean
   artifacts:
     paths:
-      - reports/allure-report
+      - allure-report
 
 build:
   image: docker:20.10.16
@@ -56,7 +56,7 @@ pages:
   image: alpine:latest
   script:
     - mkdir -p public
-    - cp -r reports/allure-report/* public/
+    - cp -r allure-report/* public/
   artifacts:
     paths:
       - public
