@@ -4,16 +4,23 @@ stages:
   - report
   - build
 
+default:
+  image: node:20.11.0
+
 eslint:
   stage: lint
-  image: node:20.11.0
+  cache:
+    paths:
+      - node_modules/
   script:
     - npm ci
     - npm run lint:ci
 
 test:
   stage: test
-  image: node:20.11.0
+  cache:
+    paths:
+      - node_modules/
   script:
     - npm ci
     - cp $ENV_FILE .env
