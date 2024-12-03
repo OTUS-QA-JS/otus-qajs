@@ -3,6 +3,7 @@ stages:
   - test
   - report
   - build
+  - deploy
 
 default:
   image: node:20.11.0
@@ -49,3 +50,13 @@ build:
     - docker build -t $CI_REGISTRY_IMAGE:latest -t $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG .
     - docker push $CI_REGISTRY_IMAGE:latest
     - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+
+pages:
+  stage: deploy
+  image: alpine:latest
+  script:
+    - mkdir -p public
+    - cp -r reports/allure-report/* public/
+  artifacts:
+    paths:
+      - public
