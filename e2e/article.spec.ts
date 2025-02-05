@@ -36,6 +36,7 @@ test('Обновление страницы', async ({ page }) => {
   await page.waitForURL('/editor/e2e-update-kak-testirovat')
   await page.getByPlaceholder('Write your article (in').fill('[E2E] [Update] Как тестировать UPDATED')
   // для примера отладки, нужно не забывать удалять
+  // eslint-disable-next-line playwright/no-page-pause
   await page.pause()
   await page.getByRole('button', { name: 'Publish Article' }).click()
   await page.waitForURL('/article/e2e-update-kak-testirovat')
