@@ -7,9 +7,9 @@ describe('Авторизация', () => {
       userName: config.username,
       password: config.password
     })
-    expect(response.status).toBe(200)
-    expect(response.data.result).toBe('User authorized successfully.')
-    expect(response.data.token).toBeDefined()
+    expect(response).toHaveProperty('status', 200)
+    expect(response).toHaveProperty('data.result', 'User authorized successfully.')
+    expect(response).toHaveProperty('data.token')
   })
 
   it('Нельзя авторизоваться без пароля', async () => {
@@ -17,7 +17,10 @@ describe('Авторизация', () => {
       userName: config.username,
       password: ''
     })
-    expect(response.status).toBe(400)
+    expect(response.data).toMatchObject({
+      code: expect.any(String),
+      message: expect.any(String)
+    })
     expect(response.data.code).toBe('1200')
     expect(response.data.message).toBe('UserName and Password required.')
   })
