@@ -10,6 +10,8 @@ const __dirname = path.dirname(__filename)
 
 function createEmptyBranch(repoUrl, branchName, tempDir) {
   try {
+    execSync('git config user.email "bot@otus.qa"', { cwd: tempDir, stdio: 'inherit' })
+    execSync('git config user.name "Bot"', { cwd: tempDir, stdio: 'inherit' })
     execSync(`git init`, { cwd: tempDir, stdio: 'inherit' })
     execSync(`git remote add origin ${repoUrl}`, { cwd: tempDir, stdio: 'inherit' })
 

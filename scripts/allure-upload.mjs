@@ -26,6 +26,8 @@ async function saveHistory() {
     await fs.copy(historySourcePath, historyDestPath)
 
     execSync('git add .', { cwd: tempDir, stdio: 'inherit' })
+    execSync('git config user.email "bot@otus.qa"', { cwd: tempDir, stdio: 'inherit' })
+    execSync('git config user.name "Bot"', { cwd: tempDir, stdio: 'inherit' })
     execSync(`git commit -m "Update history"`, { cwd: tempDir, stdio: 'inherit' })
     execSync(`git push origin ${config.branchName}`, { cwd: tempDir, stdio: 'inherit' })
 
