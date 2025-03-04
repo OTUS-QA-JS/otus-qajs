@@ -45,7 +45,7 @@ allure:
     - test
   image: registry.gitlab.com/freepad/otus-qajs-2025/allure:latest
   script:
-    - npx allure generate allure-results --clean
+    - allure generate allure-results --clean
   artifacts:
     paths:
       - allure-report
