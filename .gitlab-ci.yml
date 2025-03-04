@@ -6,7 +6,7 @@ stages:
   - deploy
 
 default:
-  image: node:20.11.0
+  image: node:22.11
 
 eslint:
   stage: lint
@@ -16,6 +16,15 @@ eslint:
   script:
     - npm ci
     - npm run lint:ci
+
+type-check:
+  stage: lint
+  cache:
+    paths:
+      - node_modules/
+  script:
+    - npm ci
+    - npm run type-check
 
 test:
   stage: test
@@ -34,12 +43,9 @@ allure:
   stage: report
   dependencies:
     - test
-  image: registry.gitlab.com/freepad/qajs-2023-12/allure:latest
+  image: registry.gitlab.com/freepad/otus-qajs-2025/allure:latest
   script:
-    - cp -r reports/allure-results /app
-    - cd /app
     - npx allure generate allure-results --clean
-    - cp -r app/allure-report $CI_PROJECT_DIR
   artifacts:
     paths:
       - allure-report
