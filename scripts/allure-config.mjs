@@ -7,6 +7,4 @@ const config = Object.freeze({
   historyDir: process.env.TEST_ALLURE_HISTORY_DIR ?? 'history'
 })
 
-console.log(config)
-
 export default config
