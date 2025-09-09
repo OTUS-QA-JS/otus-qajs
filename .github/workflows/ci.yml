@@ -32,10 +32,6 @@ jobs:
       - run: npm run lint:ci
 
   test:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
     runs-on: ubuntu-latest
 
     steps:
@@ -51,26 +47,41 @@ jobs:
           TEST_ALLURE_REPO_URL: "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
           TEST_ALLURE_BRANCH_NAME: allure
           TEST_ALLURE_HISTORY_DIR: history
-      - name: Setup Pages
+      - name: Upload reports artifact
         if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-reports
+          path: reports/allure-report
+
+  deploy:
+    if: always()
+    needs: test
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download reports artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: allure-reports
+          path: reports/allure-report
+      - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
-        if: always()
         uses: actions/upload-pages-artifact@v3
         with:
           path: 'reports/allure-report'
       - name: Deploy to GitHub Pages
-        if: always()
         id: deployment
         uses: actions/deploy-pages@v4
 
   notification:
     if: always()
-    needs: [ codestyle, test ]
-
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+    needs: [ codestyle, test, deploy ]
 
     runs-on: ubuntu-latest
     steps:
