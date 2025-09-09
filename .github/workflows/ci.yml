@@ -52,12 +52,15 @@ jobs:
           TEST_ALLURE_BRANCH_NAME: allure
           TEST_ALLURE_HISTORY_DIR: history
       - name: Setup Pages
+        if: always()
         uses: actions/configure-pages@v4
       - name: Upload artifact
+        if: always()
         uses: actions/upload-pages-artifact@v3
         with:
           path: 'reports/allure-report'
       - name: Deploy to GitHub Pages
+        if: always()
         id: deployment
         uses: actions/deploy-pages@v4
 

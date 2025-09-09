@@ -20,6 +20,6 @@ describe('farewell function', () => {
 
   it('should handle empty name gracefully', () => {
     const result = farewell('')
-    expect(result).toBe('Goodbye, !')
+    expect(result).toBe('Goodbye, ! 1')
   })
 })
