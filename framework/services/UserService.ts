@@ -1,5 +1,6 @@
 import axios from 'axios'
 import config from '../config/configBookstore'
+import TelegramService from './TelegramService'
 
 const client = axios.create({
   baseURL: config.baseURL,
@@ -25,6 +26,18 @@ const createUser = async ({ userName, password }: { userName: string; password: 
     userName,
     password
   })
+
+  /**
+   * ВАЖНО! Это сделано для примера отправки уведомлений в телеграм из тестов..
+   * Отправять что-то из тестов куда-то не рекоммендую,
+   * кроме тех случаев, когда это мб вам необходимо
+   */
+  await TelegramService.sendMessage(
+    `Создан новый пользователь: \r\n` +
+      `username: ${userName} \r\n` +
+      `password: ${password} \r\n` +
+      `userId: ${response.data.userID}`
+  )
 
   return {
     headers: response.headers,
