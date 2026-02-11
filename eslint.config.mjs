@@ -11,11 +11,7 @@ export default [
     ignores: ['reports']
   },
   {
-    files: ['scripts/**/*.zx.js'],
-    globals: {
-      $: true,
-      fs: true
-    }
+    files: ['scripts/**/*.js']
   },
   // DOC: https://www.npmjs.com/package/eslint-plugin-jest
   {
