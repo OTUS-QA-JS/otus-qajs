@@ -1,4 +1,4 @@
-import { AuthService, UserService, UserFixture, UserCredentials } from '../../framework'
+import { AuthService, UserService, UserFixture, UserCredentials, TelegramService } from '../../framework'
 import { addMsg } from 'jest-html-reporters/helper'
 
 describe('Users', () => {
@@ -11,7 +11,9 @@ describe('Users', () => {
   })
 
   it('Авторизован ли пользователь?', async () => {
-    await addMsg({ message: `Временный пользователь: ${JSON.stringify(newUser, null, 2)}` })
+    const msg = `Временный пользователь: ${JSON.stringify(newUser, null, 2)}`
+    await addMsg({ message: msg })
+    await TelegramService.sendMessage(msg)
     const responseCreateUser = await UserService.create(newUser)
     userId = responseCreateUser.data.userID
 
