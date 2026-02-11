@@ -1,4 +1,5 @@
 import { AuthService, UserService, UserFixture } from '../../framework'
+import { addMsg } from 'jest-html-reporters/helper'
 
 describe('Users', () => {
   let token
@@ -10,6 +11,7 @@ describe('Users', () => {
   })
 
   it('Авторизован ли пользователь?', async () => {
+    await addMsg({ message: `Временный пользователь: ${JSON.stringify(newUser, null, 2)}` })
     const responseCreateUser = await UserService.create(newUser)
     userId = responseCreateUser.data.userID
 

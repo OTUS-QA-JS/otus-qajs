@@ -7,6 +7,12 @@ export default [
   { languageOptions: { globals: { ...globals.browser, ...globals.node } } },
   pluginJs.configs.recommended,
   eslintPluginPrettierRecommended,
+  {
+    ignores: ['reports']
+  },
+  {
+    files: ['scripts/**/*.js']
+  },
   // DOC: https://www.npmjs.com/package/eslint-plugin-jest
   {
     files: ['test/**', 'setup-jest.js'],
