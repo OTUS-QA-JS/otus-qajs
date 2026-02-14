@@ -1,4 +1,4 @@
 /** @type {import('jest')} */
 
-const { matchers } = require('jest-json-schema')
+import { matchers } from 'jest-json-schema'
 expect.extend(matchers)
