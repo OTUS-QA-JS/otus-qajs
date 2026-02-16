@@ -1,6 +1,7 @@
 stages:
   - audit
   - lint
+  - test
 
 default:
   image: node:24.12
@@ -30,3 +31,12 @@ type-check:
   stage: lint
   script:
     - npm run type-check
+
+test api:
+  stage: test
+  script:
+    - npm run test
+  artifacts:
+    when: always
+    paths:
+      - reports/html-report
