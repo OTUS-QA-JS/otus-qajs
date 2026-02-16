@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-const baseUrl = 'https://reqres.in/api'
+const baseUrl = "https://reqres.in/api"
 
 async function fetchUsers(queryParams = {}) {
   const response = await fetch(`${baseUrl}/users?${new URLSearchParams(queryParams)}`)

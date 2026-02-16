@@ -7,4 +7,7 @@ codestyle:
   image: node:24.12
   script:
     - npm ci
-    - npm run lint:ci
+    - npm run lint:ci -- --format gitlab
+  artifacts:
+    reports:
+      codequality: gl-codequality.json
