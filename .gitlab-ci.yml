@@ -35,11 +35,14 @@ type-check:
 test api:
   stage: test
   script:
-    - echo $FILE_ENV
-    - cat $FILE_ENV
     - cp $FILE_ENV .env
     - npm test
+  after_script:
+    - npm run allure:generate
   artifacts:
     when: always
     paths:
       - reports/html-report
+      - reports/allure-report
+      - reports/allure-results
+

@@ -1,7 +1,10 @@
 include .env
 
 test_build:
-	docker build -t otus-qajs .
+	docker build -t otus-qajs -t registry.gitlab.com/freepad/otus-qajs-2026-02 .
+
+test_push:
+	docker push registry.gitlab.com/freepad/otus-qajs-2026-02
 
 test_shell:
 	docker run -v "$(PWD):/app" -v /app/node_modules -it otus-qajs bash
