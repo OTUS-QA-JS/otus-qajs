@@ -2,18 +2,25 @@ stages:
   - audit
   - lint
 
+default:
+  image: node:24.12
+  cache:
+    key:
+      files:
+        - package-lock.json
+    paths:
+      - .npm/
+  before_script:
+    - npm ci --cache .npm --prefer-offline
+
 audit:
   stage: audit
-  image: node:24.12
   script:
-    - npm ci
     - npm audit --audit-level=moderate
 
 codestyle:
   stage: lint
-  image: node:24.12
   script:
-    - npm ci
     - npm run lint:ci -- --format gitlab
   artifacts:
     reports:
@@ -21,7 +28,5 @@ codestyle:
 
 type-check:
   stage: lint
-  image: node:24.12
   script:
-    - npm ci
     - npm run type-check
