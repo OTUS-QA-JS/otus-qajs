@@ -33,6 +33,7 @@ type-check:
     - npm run type-check
 
 test api:
+  image: registry.gitlab.com/freepad/otus-qajs-2026-02/allure
   stage: test
   script:
     - cp $FILE_ENV .env
