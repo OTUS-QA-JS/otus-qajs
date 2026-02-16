@@ -1,0 +1,10 @@
+stages:
+  - lint
+
+
+codestyle:
+  stage: lint
+  image: node:24.12
+  script:
+    - npm ci
+    - npm run lint:ci
