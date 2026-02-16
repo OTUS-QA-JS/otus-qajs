@@ -35,7 +35,10 @@ type-check:
 test api:
   stage: test
   script:
-    - npm run test
+    - echo $FILE_ENV
+    - cat $FILE_ENV
+    - cp $FILE_ENV .env
+    - npm test
   artifacts:
     when: always
     paths:
