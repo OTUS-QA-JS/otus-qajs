@@ -1,30 +1,55 @@
 import { test, expect } from '@playwright/test'
-import { faker } from '@faker-js/faker'
-import { LoginPage, AuthPage } from '../framework'
+import { loginUser } from '../framework'
 
-test('Создание нового юзера', async ({ page }) => {
-  const authPage = AuthPage({ page })
-
-  await authPage.visit()
-  await authPage.fillUsername(faker.person.fullName())
-  await authPage.fillEmail(faker.internet.email())
-  await authPage.fillPassword('re@l_passw0rd')
-
-  await authPage.submit()
-
-  await expect(page).toHaveURL('/')
-  await expect(page.getByRole('link', { name: 'New Article' })).toBeVisible()
+test.beforeEach(async ({ page }) => {
+  await loginUser(page)
 })
 
-test('Несуществующий пользователь, не может зайти в систему', async ({ page }) => {
-  const loginPage = LoginPage({ page })
+test('Создание страницы', async ({ page }) => {
+  await page.getByRole('link', { name: 'New Article' }).click()
+  await page.getByPlaceholder('Article Title').fill('article title')
+  await page.getByPlaceholder("What's this article about?").fill('about article')
+  await page.getByPlaceholder('Write your article (in').fill('article content')
+    await page.getByPlaceholder('Enter tags').fill('e2e')
+  await page.getByRole('button', { name: 'Publish Article' }).click()
+    await expect(page.getByRole('heading')).toContainText('article title')
+    await expect(page.getByRole('button', { name: 'Delete Article' }).nth(1).toBeVisible()
+})
 
-  await loginPage.visit()
+test('Обновление страницы', async ({ page }) => {
+  await page.getByRole('link', { name: 'New Article' }).click()
+    await page.getByPlaceholder('Article Title').fill('Article for edit')
+    await page.getByPlaceholder("What's this article about?").fill('about')
+    await page.getByPlaceholder('Write your article (in').fill('Initial content')
+    await page.getByRole('button', { name: 'Publish Article' }).click()
+    await expect(page.getByRole('heading')).toContainText('Article for edit')
 
-  await loginPage.fillEmail('undefined@mail.ru')
-  await loginPage.fillPassword('P@ssw0rd')
-  await loginPage.submit()
+    await page.getByRole('link', { name: 'Edit Article' }).first().click()
+    await expect(page).toHaveURL(/\/editor\//)
+    await page.getByPlaceholder('Write your article (in').fill('[E2E] Updated content')
+    await page.getByRole('button', { name: 'Publish Article' }).click()
+})
 
-  await expect(page).toHaveURL('/login')
-  await expect(page.locator('app-list-errors')).toBeVisible()
+test('Удаление страницы', async ({ page }) => {
+  await page.getByRole('link', { name: 'New Article' }).click()
+    await page.getByPlaceholder('Article Title').fill('Article for delete')
+    await page.getByPlaceholder("What's this article about?").fill('about')
+    await page.getByPlaceholder('Write your article (in').fill('Эта статья должна быть удалена! Такая вот судьба')
+    await page.getByPlaceholder('Enter tags').fill('E2E')
+    const responseCreatePromise = page.waitForResponse(request => {
+        return request.url().includes('/api/articles') && request.request().method() === 'POST'
+    })
+    await page.getByRole('button', { name: 'Publish Article' }).click()
+    await responseCreatePromise
+
+    const responsePromise = page.waitForResponse(request => {
+        return request.url().includes('/api/articles') && request.request().method() === 'DELETE'
+    })
+
+    page.once('dialog', dialog => dialog.accept())
+    await Promise.all([
+        responsePromise,
+        page.getByRole('button', { name: 'Delete Article' }).nth(1).click(),
+        page.waitForURL('/')
+    ])
 })

@@ -1,13 +1,8 @@
 import { test, expect } from '@playwright/test'
+import { loginUser } from '../framework'
 
 test.beforeEach(async ({ page }) => {
-  await page.goto('/login')
-
-  await page.getByPlaceholder('Email').fill('test@mail.ru')
-  await page.getByPlaceholder('Password').fill('P@ssw0rd')
-  await page.getByRole('button', { name: 'Sign in' }).click()
-
-  await expect(page).toHaveURL('/')
+  await loginUser(page)
 })
 
 test('Создание страницы', async ({ page }) => {
