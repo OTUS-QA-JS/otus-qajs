@@ -12,7 +12,7 @@ export function LoginPage({ page }: { page: Page }) {
     await fillEmail(email)
     await fillPassword(password)
     await submit()
-    await expect(page).toHaveURL('/?feed=feed')
+    await expect(page).toHaveURL('/')
   }
 
   return {

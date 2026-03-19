@@ -1,8 +1,12 @@
 import { Page } from 'playwright-core'
 
 export function EditorPage({ page }: { page: Page }) {
-  const visit = async (slug: string | undefined) => {
-    await page.goto(`/editor/${slug}`)
+  const visit = async (slug: string | undefined = undefined) => {
+    if (slug) {
+      await page.goto(`/editor/${slug}`)
+    } else {
+      await page.goto('/editor')
+    }
   }
 
   const fillTitle = async (title: string) => {
