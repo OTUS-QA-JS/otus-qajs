@@ -1,26 +1,30 @@
-// @ts-check
 import { test, expect } from '@playwright/test'
 import { faker } from '@faker-js/faker'
+import { LoginPage, AuthPage } from '../framework'
 
 test('Создание нового юзера', async ({ page }) => {
-  await page.goto('/register')
-  await page.getByPlaceholder('Username').fill(faker.person.fullName())
-  await page.getByPlaceholder('Email').fill(faker.internet.email())
-  await page.getByPlaceholder('Password').fill('re@l_passw0rd')
-  await page.getByRole('button', { name: 'Sign up' }).click()
+  const authPage = AuthPage({ page })
+
+  await authPage.visit()
+  await authPage.fillUsername(faker.person.fullName())
+  await authPage.fillEmail(faker.internet.email())
+  await authPage.fillPassword('re@l_passw0rd')
+
+  await authPage.submit()
 
   await expect(page).toHaveURL('/')
   await expect(page.getByRole('link', { name: 'New Article' })).toBeVisible()
 })
 
-test('Успешная авторизация', async ({ page }) => {
-  await page.goto('/login')
+test('Несуществующий пользователь, не может зайти в систему', async ({ page }) => {
+  const loginPage = LoginPage({ page })
 
-  await page.getByPlaceholder('Email').fill('test@mail.ru')
-  await page.getByPlaceholder('Password').fill('P@ssw0rd')
-  await page.getByRole('button', { name: 'Sign in' }).click()
+  await loginPage.visit()
 
-  await expect(page).toHaveURL('/')
-  await expect(page.getByRole('link', { name: 'New Article' })).toBeVisible()
-  await expect(page.getByRole('link', { name: 'test test' }).first()).toBeVisible()
+  await loginPage.fillEmail('undefined@mail.ru')
+  await loginPage.fillPassword('P@ssw0rd')
+  await loginPage.submit()
+
+  await expect(page).toHaveURL('/login')
+  await expect(page.locator('app-list-errors')).toBeVisible()
 })
