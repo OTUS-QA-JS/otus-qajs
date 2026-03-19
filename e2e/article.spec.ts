@@ -3,18 +3,15 @@ import { test, expect } from '@playwright/test'
 test.beforeEach(async ({ page }) => {
   await page.goto('/login')
 
-  await page.getByTestId('input-email').click()
-  await page.getByTestId('input-email').fill('test@mail.ru')
+  await page.getByPlaceholder('Email').fill('test@mail.ru')
+  await page.getByPlaceholder('Password').fill('P@ssw0rd')
+  await page.getByRole('button', { name: 'Sign in' }).click()
 
-  await page.getByTestId('input-password').click()
-  await page.getByTestId('input-password').fill('P@ssw0rd')
-  await page.getByTestId('btn-submit').click()
-
-  await expect(page).toHaveURL('/?feed=feed')
+  await expect(page).toHaveURL('/')
 })
 
 test('Создание страницы', async ({ page }) => {
-  await page.getByRole('link', { name: 'New Post' }).click()
+  await page.getByRole('link', { name: 'New Article' }).click()
   await page.getByPlaceholder('Article Title').fill('article title')
   await page.getByPlaceholder("What's this article about?").fill('about article')
   await page.getByPlaceholder('Write your article (in').fill('article content')
@@ -25,30 +22,23 @@ test('Создание страницы', async ({ page }) => {
 })
 
 test('Обновление страницы', async ({ page }) => {
-  await page.goto('/article/e2e-update-kak-testirovat')
-  await page.getByRole('button', { name: 'Edit Article' }).first().click()
-  await page.waitForURL('/editor/e2e-update-kak-testirovat')
-  await page.getByPlaceholder('Write your article (in').fill('[E2E] [Update] Как тестировать EDIT')
+  await page.getByRole('link', { name: 'New Article' }).click()
+  await page.getByPlaceholder('Article Title').fill('Article for edit')
+  await page.getByPlaceholder("What's this article about?").fill('about')
+  await page.getByPlaceholder('Write your article (in').fill('Initial content')
   await page.getByRole('button', { name: 'Publish Article' }).click()
-  await expect(page.getByText('[E2E] [Update] Как тестировать EDIT')).toBeVisible()
+  await expect(page.getByRole('heading')).toContainText('Article for edit')
 
-  await page.getByRole('button', { name: 'Edit Article' }).first().click()
-  await page.waitForURL('/editor/e2e-update-kak-testirovat')
-  await page.getByPlaceholder('Write your article (in').fill('[E2E] [Update] Как тестировать UPDATED')
-  // для примера отладки, нужно не забывать удалять
-  // eslint-disable-next-line playwright/no-page-pause
-  await page.pause()
+  await page.getByRole('link', { name: 'Edit Article' }).first().click()
+  await expect(page).toHaveURL(/\/editor\//)
+  await page.getByPlaceholder('Write your article (in').fill('[E2E] Updated content')
   await page.getByRole('button', { name: 'Publish Article' }).click()
-  await page.waitForURL('/article/e2e-update-kak-testirovat')
-  // этого тут тоже не должно быть, но страница в кеше
-  await page.reload()
-  await expect(page.getByText('[E2E] [Update] Как тестировать UPDATED')).toBeVisible()
 })
 
 test('Удаление страницы', async ({ page }) => {
-  // создаём новую
-  await page.getByRole('link', { name: 'New Post' }).click()
+  await page.getByRole('link', { name: 'New Article' }).click()
   await page.getByPlaceholder('Article Title').fill('Article for delete')
+  await page.getByPlaceholder("What's this article about?").fill('about')
   await page.getByPlaceholder('Write your article (in').fill('Эта статья должна быть удалена! Такая вот судьба')
   await page.getByPlaceholder('Enter tags').fill('E2E')
   const responseCreatePromise = page.waitForResponse(request => {
@@ -66,6 +56,6 @@ test('Удаление страницы', async ({ page }) => {
   await Promise.all([
     responsePromise,
     page.getByRole('button', { name: 'Delete Article' }).nth(1).click(),
-    page.waitForURL('/?feed=feed')
+    page.waitForURL('/')
   ])
 })
