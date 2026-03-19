@@ -1,61 +1,90 @@
 import { test, expect } from '@playwright/test'
+import { loginUser, EditorPage, ArticlePage } from '../framework'
 
 test.beforeEach(async ({ page }) => {
-  await page.goto('/login')
-
-  await page.getByPlaceholder('Email').fill('test@mail.ru')
-  await page.getByPlaceholder('Password').fill('P@ssw0rd')
-  await page.getByRole('button', { name: 'Sign in' }).click()
-
-  await expect(page).toHaveURL('/')
+  await loginUser(page)
 })
 
 test('Создание страницы', async ({ page }) => {
-  await page.getByRole('link', { name: 'New Article' }).click()
-  await page.getByPlaceholder('Article Title').fill('article title')
-  await page.getByPlaceholder("What's this article about?").fill('about article')
-  await page.getByPlaceholder('Write your article (in').fill('article content')
-  await page.getByPlaceholder('Enter tags').fill('e2e')
-  await page.getByRole('button', { name: 'Publish Article' }).click()
+  const editorPage = EditorPage({ page })
+
+  await editorPage.visit()
+  await editorPage.fillTitle('article title')
+  await editorPage.fillAbout('about article')
+  await editorPage.fillContent('article content')
+  await editorPage.addTags(['e2e'])
+  await editorPage.submit()
+
   await expect(page.getByRole('heading')).toContainText('article title')
   await expect(page.getByRole('button', { name: 'Delete Article' }).nth(1)).toBeVisible()
 })
 
 test('Обновление страницы', async ({ page }) => {
-  await page.getByRole('link', { name: 'New Article' }).click()
-  await page.getByPlaceholder('Article Title').fill('Article for edit')
-  await page.getByPlaceholder("What's this article about?").fill('about')
-  await page.getByPlaceholder('Write your article (in').fill('Initial content')
-  await page.getByRole('button', { name: 'Publish Article' }).click()
-  await expect(page.getByRole('heading')).toContainText('Article for edit')
+  const editorPage = EditorPage({ page })
+  const articlePage = ArticlePage({ page })
 
-  await page.getByRole('link', { name: 'Edit Article' }).first().click()
-  await expect(page).toHaveURL(/\/editor\//)
-  await page.getByPlaceholder('Write your article (in').fill('[E2E] Updated content')
-  await page.getByRole('button', { name: 'Publish Article' }).click()
+  await editorPage.visit()
+  await editorPage.fillTitle('e2e update kak testirovat')
+  await editorPage.fillAbout('Статья для теста обновления')
+  await editorPage.fillContent('[E2E] Как тестировать')
+  await editorPage.addTags(['e2e'])
+
+  const responsePromise = page.waitForResponse(request => {
+    return request.url().includes('/api/articles') && request.request().method() === 'POST'
+  })
+  await editorPage.submit()
+  await responsePromise
+
+  await page.waitForURL(/\/article\//, { timeout: 10000 })
+  await page.waitForLoadState('networkidle')
+
+  const titleElement = page.locator('h1').first()
+  await expect(titleElement).toBeVisible({ timeout: 10000 })
+
+  await expect(titleElement).toContainText('e2e update kak testirovat')
+  await articlePage.clickEdit()
+
+  await page.waitForURL(/\/editor\//, { timeout: 10000 })
+  await editorPage.fillTitle('e2e update kak testirovat')
+  await editorPage.fillAbout('Статья для теста обновления')
+  await editorPage.fillContent('[E2E] [Update] Как testировать EDIT')
+  await editorPage.addTags(['e2e'])
+
+  const updateResponsePromise = page.waitForResponse(request => {
+    return request.url().includes('/api/articles') && request.request().method() === 'PUT'
+  })
+  await editorPage.submit()
+  await updateResponsePromise
+
+  await page.waitForURL(/\/article\//, { timeout: 10000 })
+  await page.waitForLoadState('networkidle')
+
+  const updatedTitleElement = page.locator('h1').first()
+  await expect(updatedTitleElement).toContainText('e2e update kak testirovat')
+  await articlePage.checkContent('[E2E] [Update] Как testировать EDIT')
 })
 
 test('Удаление страницы', async ({ page }) => {
-  await page.getByRole('link', { name: 'New Article' }).click()
-  await page.getByPlaceholder('Article Title').fill('Article for delete')
-  await page.getByPlaceholder("What's this article about?").fill('about')
-  await page.getByPlaceholder('Write your article (in').fill('Эта статья должна быть удалена! Такая вот судьба')
-  await page.getByPlaceholder('Enter tags').fill('E2E')
+  const editorPage = EditorPage({ page })
+  const articlePage = ArticlePage({ page })
+
+  await editorPage.visit()
+  await editorPage.fillTitle('Article for delete')
+  await editorPage.fillAbout('about')
+  await editorPage.fillContent('Эта статья должна быть удалена! Такая вот судьба')
+  await editorPage.addTags(['E2E'])
   const responseCreatePromise = page.waitForResponse(request => {
     return request.url().includes('/api/articles') && request.request().method() === 'POST'
   })
-  await page.getByRole('button', { name: 'Publish Article' }).click()
+  await editorPage.submit()
   await responseCreatePromise
 
-  // удаляем
+  await articlePage.clickDelete()
+
   const responsePromise = page.waitForResponse(request => {
     return request.url().includes('/api/articles') && request.request().method() === 'DELETE'
   })
 
   page.once('dialog', dialog => dialog.accept())
-  await Promise.all([
-    responsePromise,
-    page.getByRole('button', { name: 'Delete Article' }).nth(1).click(),
-    page.waitForURL('/')
-  ])
+  await Promise.all([responsePromise, articlePage.clickDelete(), page.waitForURL('/')])
 })
