@@ -1,26 +1,44 @@
-// @ts-check
 import { test, expect } from '@playwright/test'
 import { faker } from '@faker-js/faker'
+import { AuthPage, SignUpPage } from '../framework'
+import { configRWA } from '../framework/config'
 
 test('Создание нового юзера', async ({ page }) => {
-  await page.goto('/register')
-  await page.getByPlaceholder('Username').fill(faker.person.fullName())
-  await page.getByPlaceholder('Email').fill(faker.internet.email())
-  await page.getByPlaceholder('Password').fill('re@l_passw0rd')
-  await page.getByRole('button', { name: 'Sign up' }).click()
+  const signUpPage = SignUpPage({ page })
+
+  const userName = faker.person.fullName()
+
+  await signUpPage.visit()
+  await signUpPage.fillUserName(userName)
+  await signUpPage.fillEmail(faker.internet.email())
+  await signUpPage.fillPassword('re@l_passw0rd')
+  await signUpPage.submit()
 
   await expect(page).toHaveURL('/')
   await expect(page.getByRole('link', { name: 'New Article' })).toBeVisible()
+  await expect(page.getByRole('link', { name: userName }).first()).toBeVisible()
 })
 
 test('Успешная авторизация', async ({ page }) => {
-  await page.goto('/login')
+  const authPage = AuthPage({ page })
+  await authPage.visit()
 
-  await page.getByPlaceholder('Email').fill('test@mail.ru')
-  await page.getByPlaceholder('Password').fill('P@ssw0rd')
-  await page.getByRole('button', { name: 'Sign in' }).click()
+  await authPage.fillEmail(configRWA.email)
+  await authPage.fillPassword(configRWA.password)
+  await authPage.sumbit()
 
   await expect(page).toHaveURL('/')
   await expect(page.getByRole('link', { name: 'New Article' })).toBeVisible()
   await expect(page.getByRole('link', { name: 'test test' }).first()).toBeVisible()
+})
+
+test('Ошибка авторизация', async ({ page }) => {
+  const authPage = AuthPage({ page })
+  await authPage.visit()
+
+  await authPage.fillEmail('test11@mail.ru')
+  await authPage.fillPassword('P@ssw0rd')
+  await authPage.sumbit()
+
+  await expect(page.getByText('credentials invalid')).toBeVisible()
 })
