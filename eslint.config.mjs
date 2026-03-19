@@ -5,6 +5,7 @@ import pluginJs from '@eslint/js'
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
 import jest from 'eslint-plugin-jest'
 import tseslint from 'typescript-eslint'
+import playwright from 'eslint-plugin-playwright'
 
 export default tseslint.config(
   { languageOptions: { globals: { ...globals.browser, ...globals.node } } },
@@ -15,7 +16,7 @@ export default tseslint.config(
   // ...tseslint.configs.strict,
   ...tseslint.configs.stylistic,
   {
-    ignores: ['reports']
+    ignores: ['reports', 'playwright-report', 'test-results']
   },
   {
     files: ['scripts/**/*.zx.js'],
@@ -38,5 +39,13 @@ export default tseslint.config(
   {
     files: ['test/**', 'setup-jest.js'],
     ...jest.configs['flat/recommended']
+  },
+  {
+    ...playwright.configs['flat/recommended'],
+    files: ['e2e/**'],
+    rules: {
+      ...playwright.configs['flat/recommended'].rules,
+      'playwright/expect-expect': 'off'
+    }
   }
 )
