@@ -23,7 +23,7 @@
     "test:e2e:trace": "playwright test --trace on",
     "test:e2e:slow": "cross-env PLAYWRIGHT_SLOW_MO=1000 playwright test --headed",
     "test:e2e:show": "playwright show-report",
-    "test:e2e:codegen": "npx playwright codegen https://rwa-194.87.102.103.sslip.io"
+    "test:e2e:codegen": "npx playwright codegen https://rwa-188.130.251.61.sslip.io/"
   },
   "author": "Damir Rysaev <freepad@ya.ru>",
   "keywords": [],
