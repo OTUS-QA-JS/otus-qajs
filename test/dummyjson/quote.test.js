@@ -1,3 +1,5 @@
+import * as allure from "allure-js-commons";
+import { Severity } from "allure-js-commons";
 import { QuoteService } from '../../framework'
 import Ajv from 'ajv'
 
@@ -35,7 +37,17 @@ describe('Quote', () => {
     })
   })
 
-  it('Should return a random quote', async () => {
+  it('Should return a random quote @allure.label.epic:ВебИнтерфейс', async () => {
+    await allure.severity(Severity.CRITICAL);
+    await allure.issue("AUTH-123", "Related issue");
+    await allure.tms("TMS-456", "Related TMS issue");
+    await allure.link("JIRA-777", "Related Jira issue", "jira");
+    await allure.link("https://example.com/", "Project website");
+
+
+    await allure.feature("Essential features");
+    await allure.story("Authentication");
+
     const response1 = await QuoteService.getRandom()
     expect(response1.status).toBe(200)
     const isValid1 = quoteValidate(response1.data)
@@ -43,7 +55,7 @@ describe('Quote', () => {
     expect(isValid1).toBe(true)
 
     const response2 = await QuoteService.getRandom()
-    expect(response2.status).toBe(200)
+    expect(response2.status).toBe(404)
     expect(quoteValidate(response2.data)).toBe(true)
 
     expect(response1.data).not.toStrictEqual(response2.data)

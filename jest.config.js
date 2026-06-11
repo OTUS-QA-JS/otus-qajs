@@ -3,6 +3,8 @@
  * https://jestjs.io/docs/configuration
  */
 
+const os = require("node:os");
+
 /** @type {import('jest').Config} */
 const config = {
   // All imported modules in your tests should be mocked automatically
@@ -108,17 +110,18 @@ const config = {
 
   // Use this configuration option to add custom reporters to Jest
   reporters: [
-    'default',
-    ['github-actions', { silent: false }],
-    'summary',
-    [
+    //'default',
+    //['github-actions', { silent: false }],
+    //'summary',
+    /*[
       'jest-html-reporters',
       {
         publicPath: './reports/html-report',
         // openReport: !process.env.CI,
+        openReport: true,
         filename: 'index.html'
       }
-    ]
+    ]*/
   ],
 
   // Automatically reset mock state before every test
@@ -205,7 +208,13 @@ const config = {
 
   testEnvironment: 'allure-jest/node',
   testEnvironmentOptions: {
-    resultsDir: 'reports/allure-results'
+    resultsDir: 'reports/allure-results',
+    environmentInfo: {
+      os_platform: os.platform(),
+      os_release: os.release(),
+      os_version: os.version(),
+      node_version: process.version,
+    },
   }
 }
 

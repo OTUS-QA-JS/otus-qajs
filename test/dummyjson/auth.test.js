@@ -1,4 +1,5 @@
 import { config as _config, AuthDummyjsonService } from '../../framework'
+import { addMsg } from 'jest-html-reporters/helper'
 
 const config = _config.dummyjson
 
@@ -6,11 +7,16 @@ describe('Auth', () => {
   // beforeEach
 
   it('Success login', async () => {
-    const response = await AuthDummyjsonService.login({
+    const credentials = {
       username: config.username,
-      password: config.password,
+      password: config.password
+    };
+    const response = await AuthDummyjsonService.login({
+      ...credentials,
       expiresInMins: 30
     })
+
+    addMsg({ message: `Response -> User name is ${JSON.stringify(credentials, null, 2)}` })
 
     expect(response.status).toEqual(200)
     expect(response.data.username).toBe(config.username)
