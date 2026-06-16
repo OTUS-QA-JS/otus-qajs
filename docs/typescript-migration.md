@@ -119,3 +119,15 @@ expect(value).toBe('123')
 ```
 
 Ожидаемо: Jest может пройти, потому что Babel удаляет типы и запускает JavaScript.
+
+После кодового коммита шага 1:
+
+```bash
+npm test -- --runTestsByPath test/unit.test.ts
+```
+
+Результат:
+
+```text
+PASS test/unit.test.ts
+```

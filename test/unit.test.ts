@@ -23,3 +23,11 @@ describe('farewell function', () => {
     expect(result).toBe('Goodbye, !')
   })
 })
+
+describe('babel typescript transform', () => {
+  it('runs TypeScript syntax without type checking', () => {
+    const value: number = '123'
+
+    expect(value).toBe('123')
+  })
+})
