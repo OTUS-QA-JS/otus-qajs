@@ -372,3 +372,34 @@ npm run type-check
 ```text
 Property 'toMatchSchema' does not exist on type 'JestMatchers'.
 ```
+
+## Шаг 6. Подключить типы кастомных Jest matcher
+
+Коммит с инструкцией: `docs: step 6 add jest schema matcher types`
+
+Проблема:
+
+```text
+Property 'toMatchSchema' does not exist on type 'JestMatchers'.
+```
+
+Причина: в `tsconfig.json` указано свойство `types`, поэтому TypeScript подключает только перечисленные пакеты типов.
+
+Добавить типы `jest-json-schema`:
+
+```json
+{
+  "compilerOptions": {
+    "types": ["node", "jest", "jest-json-schema"]
+  }
+}
+```
+
+Запустить:
+
+```bash
+npm run type-check
+npm test -- --runTestsByPath test/unit.test.ts test/discount.test.ts
+```
+
+Ожидаемо: проверка типов проходит, выбранные тесты проходят.
