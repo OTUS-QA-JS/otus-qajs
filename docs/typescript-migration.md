@@ -10,6 +10,18 @@
 - `code: step N ...` - затем готовое изменение;
 - после `docs`-коммита можно выполнить команды самостоятельно и сравнить с следующим `code`-коммитом.
 
+## Коммиты ветки
+
+| Шаг | Инструкция | Код |
+| --- | --- | --- |
+| 0 | `e6cc023 docs: step 0 describe migration flow` | - |
+| 1 | `9f4f87b docs: step 1 add babel typescript support` | `a9b5bd3 code: step 1 add babel typescript support` |
+| 2 | `0e5a34e docs: step 2 add type check` | `53d3056 code: step 2 add type check` |
+| 3 | `d248f0d docs: step 3 fix first type errors` | `07e229a code: step 3 fix first type errors` |
+| 4 | `645d733 docs: step 4 rename project files` | `574ffbd code: step 4 rename project files` |
+| 5 | `b858533 docs: step 5 stabilize migrated project` | `985e79a code: step 5 stabilize migrated project` |
+| 6 | `d3fd155 docs: step 6 add jest schema matcher types` | `d85ac7a code: step 6 add jest schema matcher types` |
+
 ## Проверка стартового проекта
 
 ```bash
