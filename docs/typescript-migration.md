@@ -285,3 +285,18 @@ npm run type-check
 ```
 
 Ожидаемо: после массового переименования появляются ошибки типов. Их исправляем следующими шагами.
+
+После кодового коммита шага 4:
+
+```bash
+npm run type-check
+```
+
+Типичные ошибки:
+
+```text
+Parameter implicitly has an 'any' type.
+Could not find a declaration file for module 'supertest'.
+Cannot redeclare block-scoped variable.
+Property 'toMatchSchema' does not exist on type 'JestMatchers'.
+```
