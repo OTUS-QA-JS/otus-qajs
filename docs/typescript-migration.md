@@ -185,3 +185,16 @@ npm run type-check
 ```
 
 Ожидаемо: проверка падает на строке `const value: number = '123'`.
+
+После кодового коммита шага 2:
+
+```bash
+npm run type-check
+```
+
+Результат:
+
+```text
+test/unit.test.ts: Could not find a declaration file for module '../src/modules.js'.
+test/unit.test.ts: Type 'string' is not assignable to type 'number'.
+```
