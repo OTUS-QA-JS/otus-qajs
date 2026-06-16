@@ -300,3 +300,63 @@ Could not find a declaration file for module 'supertest'.
 Cannot redeclare block-scoped variable.
 Property 'toMatchSchema' does not exist on type 'JestMatchers'.
 ```
+
+## Шаг 5. Стабилизировать проект после rename
+
+Коммит с инструкцией: `docs: step 5 stabilize migrated project`
+
+Что сделать:
+
+```bash
+git mv jest.config.ts jest.config.cjs
+git mv setup-jest.ts setup-jest.js
+```
+
+Почему:
+
+- Jest должен прочитать конфиг до Babel-трансформации;
+- `.cjs` явно говорит Node.js, что это CommonJS-конфиг;
+- setup-файл Jest проще оставить `.js`, если он использует `require`.
+
+Исправлять ошибки `implicit any` нужно нормальными типами:
+
+```ts
+export const getTodo = async (id: number) => {}
+```
+
+Для объектных параметров добавляем `type`:
+
+```ts
+type UserCredentials = {
+  userName: string
+  password: string
+}
+
+const createUser = async ({ userName, password }: UserCredentials) => {}
+```
+
+Для массивов описываем элемент массива:
+
+```ts
+type Product = {
+  price: number
+  quantity: number
+}
+
+export function calculateTotal(products: Product[], discount: number) {}
+```
+
+Не использовать:
+
+```ts
+const createUser = async payload => {}
+const getTodo = async id => {}
+```
+
+Запустить:
+
+```bash
+npm run type-check
+```
+
+Ожидаемо: ошибок меньше, но миграция ещё не завершена.
