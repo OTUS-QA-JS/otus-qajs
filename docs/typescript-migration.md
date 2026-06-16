@@ -198,3 +198,35 @@ npm run type-check
 test/unit.test.ts: Could not find a declaration file for module '../src/modules.js'.
 test/unit.test.ts: Type 'string' is not assignable to type 'number'.
 ```
+
+## Шаг 3. Исправить первые ошибки type-check
+
+Коммит с инструкцией: `docs: step 3 fix first type errors`
+
+Переименовать импортируемый файл:
+
+```bash
+git mv src/modules.js src/modules.ts
+```
+
+Обновить импорт в тесте:
+
+```ts
+import { greet, farewell } from '../src/modules'
+```
+
+Исправить неправильный тип:
+
+```ts
+const value: number = 123
+expect(value).toBe(123)
+```
+
+Запустить:
+
+```bash
+npm run type-check
+npm test -- --runTestsByPath test/unit.test.ts
+```
+
+Ожидаемо: `type-check` и тест проходят.
