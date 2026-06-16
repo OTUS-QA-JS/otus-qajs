@@ -222,6 +222,13 @@ const value: number = 123
 expect(value).toBe(123)
 ```
 
+Добавить типы параметров в `src/modules.ts`:
+
+```ts
+export function greet(name: string): string
+export const farewell = (name: string): string
+```
+
 Запустить:
 
 ```bash
@@ -230,3 +237,17 @@ npm test -- --runTestsByPath test/unit.test.ts
 ```
 
 Ожидаемо: `type-check` и тест проходят.
+
+После кодового коммита шага 3:
+
+```bash
+npm run type-check
+npm test -- --runTestsByPath test/unit.test.ts
+```
+
+Результат:
+
+```text
+type-check: OK
+PASS test/unit.test.ts
+```

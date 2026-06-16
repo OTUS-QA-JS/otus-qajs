@@ -1,4 +1,4 @@
-import { greet, farewell } from '../src/modules.js'
+import { greet, farewell } from '../src/modules'
 
 describe('greet function', () => {
   it('should return a greeting message with the given name', () => {
@@ -26,8 +26,8 @@ describe('farewell function', () => {
 
 describe('babel typescript transform', () => {
   it('runs TypeScript syntax without type checking', () => {
-    const value: number = '123'
+    const value: number = 123
 
-    expect(value).toBe('123')
+    expect(value).toBe(123)
   })
 })
