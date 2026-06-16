@@ -360,3 +360,15 @@ npm run type-check
 ```
 
 Ожидаемо: ошибок меньше, но миграция ещё не завершена.
+
+После кодового коммита шага 5:
+
+```bash
+npm run type-check
+```
+
+Оставшийся класс ошибок:
+
+```text
+Property 'toMatchSchema' does not exist on type 'JestMatchers'.
+```

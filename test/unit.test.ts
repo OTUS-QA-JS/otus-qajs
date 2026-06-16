@@ -26,7 +26,7 @@ describe('farewell function', () => {
 
 describe('babel typescript transform', () => {
   it('runs TypeScript syntax without type checking', () => {
-    const value: number = 123
+    const value = 123
 
     expect(value).toBe(123)
   })

@@ -1,9 +1,9 @@
-import { AuthService, UserService, UserFixture } from '../../framework'
+import { AuthService, UserService, UserFixture, UserCredentials } from '../../framework'
 
 describe('Users', () => {
-  let token
-  let userId
-  let newUser
+  let token: string
+  let userId: number
+  let newUser: UserCredentials
 
   beforeAll(async () => {
     newUser = UserFixture.generateUserCredentials()

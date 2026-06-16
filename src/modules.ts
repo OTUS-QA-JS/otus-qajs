@@ -1,9 +1,9 @@
 // Функция
-export function greet(name: string): string {
+export function greet(name: string) {
   return `Hello, ${name}!`
 }
 
 // Стрелочная функция
-export const farewell = (name: string): string => {
+export const farewell = (name: string) => {
   return `Goodbye, ${name}!`
 }

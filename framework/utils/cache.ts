@@ -1,14 +1,18 @@
+type AsyncFunction<Args extends unknown[], Result> = (...payload: Args) => Promise<Result>
+
 export const cached =
-  (fn, cache = new Map()) =>
-  async (...payload) => {
+  <Args extends unknown[], Result>(fn: AsyncFunction<Args, Result>, cache = new Map<string, Promise<Result>>()) =>
+  async (...payload: Args) => {
     const cacheKey = JSON.stringify(payload)
 
-    if (!cache.has(cacheKey)) {
-      cache.set(cacheKey, fn(...payload))
+    let cachedValue = cache.get(cacheKey)
+    if (!cachedValue) {
+      cachedValue = fn(...payload)
+      cache.set(cacheKey, cachedValue)
     }
 
     try {
-      return await cache.get(cacheKey)
+      return await cachedValue
     } catch (error) {
       cache.delete(cacheKey)
       throw error

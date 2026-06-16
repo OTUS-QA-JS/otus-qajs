@@ -1,7 +1,20 @@
 const baseUrl = 'https://reqres.in/api'
 
-async function fetchUsers(queryParams = {}) {
-  const response = await fetch(`${baseUrl}/users?${new URLSearchParams(queryParams)}`)
+type UserId = number | string
+
+interface UserPayload {
+  name?: string
+  job?: string
+  [key: string]: string | number | boolean | undefined
+}
+
+interface UsersQueryParams {
+  page?: number
+  per_page?: number
+}
+
+async function fetchUsers(queryParams: UsersQueryParams = {}) {
+  const response = await fetch(`${baseUrl}/users?${new URLSearchParams(toSearchParams(queryParams))}`)
   return {
     status: response.status,
     headers: response.headers,
@@ -9,8 +22,12 @@ async function fetchUsers(queryParams = {}) {
   }
 }
 
+function toSearchParams(queryParams: UsersQueryParams): Record<string, string> {
+  return Object.fromEntries(Object.entries(queryParams).map(([key, value]) => [key, String(value)]))
+}
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-async function fetchUser(id) {
+async function fetchUser(id: UserId) {
   const response = await fetch(`${baseUrl}/users/${id}`)
   return {
     status: response.status,
@@ -20,7 +37,7 @@ async function fetchUser(id) {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-async function updateUser(id, data) {
+async function updateUser(id: UserId, data: UserPayload) {
   const response = await fetch(`${baseUrl}/users/${id}`, {
     method: 'PATCH',
     headers: {
@@ -36,7 +53,7 @@ async function updateUser(id, data) {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-async function putUser(id, data) {
+async function putUser(id: UserId, data: UserPayload) {
   const response = await fetch(`${baseUrl}/users/${id}`, {
     method: 'PUT',
     headers: {
@@ -52,7 +69,7 @@ async function putUser(id, data) {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-async function deleteUser(id) {
+async function deleteUser(id: UserId) {
   const response = await fetch(`${baseUrl}/users/${id}`, {
     method: 'DELETE'
   })
@@ -63,7 +80,7 @@ async function deleteUser(id) {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-async function createUser(data) {
+async function createUser(data: UserPayload) {
   const response = await fetch(`${baseUrl}/users`, {
     method: 'POST',
     headers: {

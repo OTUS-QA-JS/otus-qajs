@@ -1,7 +1,18 @@
+type DynamicField = string | number | boolean | string[] | Record<string, string> | undefined
+
+interface DynamicUser {
+  id: number
+  name?: string
+  isActive: boolean
+  roles: string[]
+  social?: Record<string, string>
+  [key: string]: DynamicField
+}
+
 let nameField = 'name'
 let socialField = 'social'
 
-const teacher = {
+const teacher: DynamicUser = {
   id: 1,
   [nameField]: 'Damir Rysaev',
   isActive: true,
@@ -15,7 +26,7 @@ const teacher = {
 nameField = 'user name'
 socialField = 'social networks'
 
-const student = {
+const student: DynamicUser = {
   id: 2,
   [nameField]: 'Jon Snow',
   isActive: true,
@@ -25,3 +36,5 @@ const student = {
 
 console.log(teacher)
 console.log(student)
+
+export {}

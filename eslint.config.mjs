@@ -11,10 +11,28 @@ export default tseslint.config(
   pluginJs.configs.recommended,
   eslintPluginPrettierRecommended,
   ...tseslint.configs.recommended,
+  // DOC: https://typescript-eslint.io/getting-started#additional-configs
+  // ...tseslint.configs.strict,
   ...tseslint.configs.stylistic,
+  {
+    ignores: ['reports']
+  },
+  {
+    files: ['scripts/**/*.zx.js'],
+    globals: {
+      $: true,
+      fs: true
+    }
+  },
   {
     files: ['**/*.js'],
     extends: [tseslint.configs.disableTypeChecked]
+  },
+  {
+    files: ['**/*.ts'],
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'error'
+    }
   },
   // DOC: https://www.npmjs.com/package/eslint-plugin-jest
   {

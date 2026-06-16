@@ -1,4 +1,12 @@
-const teacher = {
+interface User {
+  id: number
+  name: string
+  isActive: boolean
+  roles?: string[]
+  social?: Record<string, string>
+}
+
+const teacher: User = {
   id: 10,
   name: 'Damir Rysaev',
   isActive: true,
@@ -9,7 +17,7 @@ const teacher = {
   }
 }
 
-const student = {
+const student: User = {
   id: 212,
   name: 'Jon Snow',
   isActive: true,
@@ -17,13 +25,13 @@ const student = {
   social: {}
 }
 
-const badUser = {
+const badUser: User = {
   id: 343,
   name: 'My Bot',
   isActive: false
 }
 
-const users = [teacher, student, badUser]
+const users: User[] = [teacher, student, badUser]
 
 console.log('users[2]', users[2]) // badUser
 console.log('users[3]', users[3]) // undefined
@@ -82,3 +90,5 @@ console.log('const user of users')
 for (const user of users) {
   console.log('user.name: ', user.name)
 }
+
+export {}

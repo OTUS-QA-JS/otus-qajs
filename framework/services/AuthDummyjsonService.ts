@@ -4,7 +4,15 @@ import clients from './client'
 
 const client = clients.clientDummyjson
 
-const login = async ({ username, password, expiresInMins }) => {
+const login = async ({
+  username,
+  password,
+  expiresInMins
+}: {
+  username: string
+  password: string
+  expiresInMins?: number
+}) => {
   const response = await fetch(`${config.baseURL}/user/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -22,7 +30,7 @@ const login = async ({ username, password, expiresInMins }) => {
   }
 }
 
-const getMe = async ({ token }) => {
+const getMe = async ({ token }: { token: string }) => {
   const response = await supertest(config.baseURL).get('/user/me').set('Authorization', `Bearer ${token}`)
 
   return {
@@ -32,7 +40,7 @@ const getMe = async ({ token }) => {
   }
 }
 
-const refresh = async ({ refreshToken, expiresInMins }) => {
+const refresh = async ({ refreshToken, expiresInMins }: { refreshToken: string; expiresInMins?: number }) => {
   const response = await client.post('/auth/refresh', {
     refreshToken,
     expiresInMins

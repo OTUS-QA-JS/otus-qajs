@@ -59,8 +59,16 @@ import { faker } from '@faker-js/faker'
 //   "images": ["...", "...", "..."]
 // }
 
+interface Review {
+  rating: number
+  comment: string
+  date: string
+  reviewerName: string
+  reviewerEmail: string
+}
+
 export function ProductFixture() {
-  let data = {}
+  let data: Record<string, unknown> = {}
 
   const setDefaults = () => {
     data = {
@@ -70,15 +78,15 @@ export function ProductFixture() {
     }
   }
 
-  const setTitle = title => {
+  const setTitle = (title: string) => {
     data.title = title
   }
 
-  const setDescription = description => {
+  const setDescription = (description: string) => {
     data.description = description
   }
 
-  const setReviews = reviews => {
+  const setReviews = (reviews: number | Review[]) => {
     if (typeof reviews === 'number') {
       data.reviews = Array.from({ length: reviews }).map(() => {
         return {

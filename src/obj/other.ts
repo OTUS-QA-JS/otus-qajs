@@ -1,4 +1,13 @@
-const teacher = {
+interface User {
+  id: number
+  name: string
+  isActive: boolean
+  roles?: string[]
+  social?: Record<string, string>
+  otherField?: string
+}
+
+const teacher: User = {
   id: 10,
   name: 'Damir Rysaev',
   isActive: true,
@@ -9,7 +18,7 @@ const teacher = {
   }
 }
 
-const student = {
+const student: User = {
   id: 212,
   name: 'Jon Snow',
   isActive: true,
@@ -17,15 +26,15 @@ const student = {
   social: {}
 }
 
-const badUser = {
+const badUser: User = {
   id: 343,
   name: 'My Bot',
   isActive: false
 }
 
-const users = [teacher, student, badUser]
+const users: User[] = [teacher, student, badUser]
 
-const getUserName = ({ name = 'Аноним' } = {}) => {
+const getUserName = ({ name = 'Аноним' }: { name?: string } = {}) => {
   return name
 }
 console.log('teacher.name', getUserName(teacher))
@@ -59,3 +68,5 @@ console.log('alsoUsers', alsoUsers)
   const response = await request()
   console.log(response)
 })()
+
+export {}
