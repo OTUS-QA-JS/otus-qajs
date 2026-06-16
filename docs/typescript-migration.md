@@ -251,3 +251,37 @@ npm test -- --runTestsByPath test/unit.test.ts
 type-check: OK
 PASS test/unit.test.ts
 ```
+
+## Шаг 4. Массово переименовать JavaScript-файлы
+
+Коммит с инструкцией: `docs: step 4 rename project files`
+
+Вариант через `ts-migrate`:
+
+```bash
+npm install --save-dev ts-migrate
+npx -p ts-migrate -c "ts-migrate-full ."
+npm remove ts-migrate
+```
+
+Зачем `npm remove ts-migrate`:
+
+- `ts-migrate` нужен один раз для стартового преобразования;
+- результат уже записан в файлы проекта;
+- для обычной разработки нужны `typescript`, `tsc`, Jest и ESLint;
+- лишняя dev-зависимость усложняет установку и обновления.
+
+Минимальный ручной вариант:
+
+```bash
+git mv src/discount.js src/discount.ts
+git mv test/discount.test.js test/discount.test.ts
+```
+
+Проверить:
+
+```bash
+npm run type-check
+```
+
+Ожидаемо: после массового переименования появляются ошибки типов. Их исправляем следующими шагами.
