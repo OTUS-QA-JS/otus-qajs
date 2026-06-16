@@ -131,3 +131,57 @@ npm test -- --runTestsByPath test/unit.test.ts
 ```text
 PASS test/unit.test.ts
 ```
+
+## Шаг 2. Добавить проверку типов через tsc
+
+Коммит с инструкцией: `docs: step 2 add type check`
+
+Установить TypeScript уже было нужно на шаге 1. Теперь добавить `tsconfig.json`:
+
+```json
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "types": ["node", "jest"]
+  },
+  "include": ["src/**/*.ts", "framework/**/*.ts", "test/**/*.ts"]
+}
+```
+
+Значения свойств:
+
+| Свойство | Значение | Назначение |
+| --- | --- | --- |
+| `target` | `ES2022` | Проверять код как современный JavaScript для Node.js. |
+| `module` | `CommonJS` | Использовать формат модулей, совместимый с текущим Jest-запуском. |
+| `moduleResolution` | `Node` | Искать импорты по правилам Node.js. |
+| `strict` | `true` | Включить строгую проверку типов. |
+| `noEmit` | `true` | Не создавать `.js` файлы, только проверять типы. |
+| `esModuleInterop` | `true` | Упростить импорт CommonJS-пакетов через `import`. |
+| `skipLibCheck` | `true` | Не проверять типы внутри зависимостей. |
+| `types` | `node`, `jest` | Подключить глобальные типы Node.js и Jest. |
+| `include` | `src`, `framework`, `test` | Ограничить проверку файлами проекта. |
+
+Добавить скрипт:
+
+```json
+{
+  "scripts": {
+    "type-check": "tsc --noEmit"
+  }
+}
+```
+
+Запустить:
+
+```bash
+npm run type-check
+```
+
+Ожидаемо: проверка падает на строке `const value: number = '123'`.
