@@ -403,3 +403,18 @@ npm test -- --runTestsByPath test/unit.test.ts test/discount.test.ts
 ```
 
 Ожидаемо: проверка типов проходит, выбранные тесты проходят.
+
+После кодового коммита шага 6:
+
+```bash
+npm run type-check
+npm test -- --runTestsByPath test/unit.test.ts test/discount.test.ts
+```
+
+Результат:
+
+```text
+type-check: OK
+PASS test/unit.test.ts
+PASS test/discount.test.ts
+```
